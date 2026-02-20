@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motor AI Dashboard</title>
+    <style>
+        :root {
+            --primary: #00d2ff;
+            --secondary: #3a7bd5;
+            --bg: #0f0c29;
+            --glass: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            background: linear-gradient(to right, #24243e, #302b63, #0f0c29);
+            color: white;
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        /* Animated background elements */
+        .bg-glow {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(0, 210, 255, 0.1) 0%, transparent 70%);
+            z-index: -1;
+            top: -100px;
+            left: -100px;
+            animation: move 15s infinite alternate;
+        }
+
+        @keyframes move {
+            from { transform: translate(0, 0); }
+            to { transform: translate(100px, 100px); }
+        }
+
+        .container {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            padding: 40px;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            width: 450px;
+            z-index: 1;
+        }
+
+        h2 {
+            text-align: center;
+            background: linear-gradient(to right, #00d2ff, #91eaff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 28px;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .input-group { margin-bottom: 15px; }
+        .full-width { grid-column: span 2; }
+
+        label {
+            font-size: 12px;
+            color: #aaa;
+            margin-bottom: 5px;
+            display: block;
+            text-transform: uppercase;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            background: rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            color: white;
+            box-sizing: border-box;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(0, 210, 255, 0.3);
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+
+        button:hover {
+            filter: brightness(1.2);
+            transform: translateY(-2px);
+        }
+
+        .result-box {
+            margin-top: 25px;
+            padding: 15px;
+            background: rgba(78, 204, 163, 0.1);
+            border: 1px dashed #4ecca3;
+            border-radius: 12px;
+            text-align: center;
+            color: #4ecca3;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-glow"></div>
+    <div class="container">
+        <h2>Motor AI Core</h2>
+        <form action="/predict" method="post">
+            <div class="grid">
+                <div class="input-group"><label>Ambient</label><input type="number" step="any" name="ambient" required></div>
+                <div class="input-group"><label>Coolant</label><input type="number" step="any" name="coolant" required></div>
+                <div class="input-group"><label>Voltage d</label><input type="number" step="any" name="u_d" required></div>
+                <div class="input-group"><label>Voltage q</label><input type="number" step="any" name="u_q" required></div>
+                <div class="input-group"><label>Current d</label><input type="number" step="any" name="i_d" required></div>
+                <div class="input-group"><label>Current q</label><input type="number" step="any" name="i_q" required></div>
+                <div class="input-group full-width"><label>Motor Speed (RPM)</label><input type="number" step="any" name="motor_speed" required></div>
+            </div>
+            <button type="submit">Analyze Rotor Performance</button>
+        </form>
+
+        {% if prediction_text %}
+        <div class="result-box">
+            <strong>SYSTEM ANALYSIS:</strong><br>
+            {{ prediction_text }}
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

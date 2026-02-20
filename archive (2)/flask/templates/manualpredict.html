@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Motor Temperature Predictor</title>
+</head>
+<body>
+    <h2>🔥 Electric Motor Rotor Temperature Prediction</h2>
+    
+    <form action="/predict" method="POST">
+        <h3>Enter Motor Parameters:</h3>
+        Ambient Temp: <input type="number" step="0.1" name="ambient" required><br><br>
+        Coolant Temp: <input type="number" step="0.1" name="coolant" required><br><br>
+        Voltage d: <input type="number" step="0.01" name="u_d" required><br><br>
+        Voltage q: <input type="number" step="0.01" name="u_q" required><br><br>
+        Motor Speed: <input type="number" name="motor_speed" required><br><br>
+        Current d: <input type="number" step="0.01" name="i_d" required><br><br>
+        Current q: <input type="number" step="0.01" name="i_q" required><br><br>
+        <input type="submit" value="🚀 PREDICT TEMPERATURE">
+    </form>
+    
+    <h3>{{ prediction_text }}</h3>
+</body>
+</html>
